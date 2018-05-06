@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-  db.getCatsById(req.params.id)
+  db.getCatById(req.params.id)
     .then(cat => {
       res.json(cat)
     })
@@ -26,8 +26,8 @@ router.post('/', (req, res) => {
     'life_story':req.body.life_story
   }
   db.newCat(cat)
-    .then(res => {
-      res.json(res)
+    .then(cat_id => {
+      res.json(cat_id)
     })
     .catch(err => res.status(500).send({message: "Server Error"}))
 
@@ -40,8 +40,8 @@ router.put('/:id', (req, res) => {
     'life_story':req.body.life_story
   }
   db.updateCat(cat, req.params.id)
-    .then(res => {
-      res.json(res)
+    .then(cat => {
+      res.json(cat)
     })
     .catch(err => res.status(500).send({message: "Server Error"}))
 
