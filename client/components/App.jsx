@@ -8,6 +8,7 @@ const App = () => (
   <Router>
       <React.Fragment>
         <Route exact path="/" component={Meowtown} />
+        <Route exact path="/cats" component={Meowtown} />
         <Route exact path="/cats/:id" component={EditCat} />
       </React.Fragment>
   </Router>

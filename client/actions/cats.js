@@ -14,6 +14,12 @@ export const receiveCat = (cat) => {
   }
 }
 
+export const catEdited = () => {
+  return {
+    type: 'CAT_EDITED'
+  }
+}
+
 export function getCats () {
   return (dispatch) => {
     request
@@ -40,4 +46,22 @@ export function getCatById (id) {
         dispatch(receiveCat(res.body))
       })
   }
+}
+
+export function putCatById (id, name, image, life_story) {
+  return (dispatch) => {
+    request
+      .put(`/api/cats/${id}`)
+      .send({ name, image, life_story})
+      .end((err, res) => {
+        if (err) {
+          console.error(err.message)
+          return
+        }
+        dispatch(catEdited())
+      })
+
+  }
+
+
 }
