@@ -7,6 +7,13 @@ export const receiveCats = (cats) => {
   }
 }
 
+export const receiveCat = (cat) => {
+  return {
+    type: 'RECEIVE_CAT',
+    cat
+  }
+}
+
 export function getCats () {
   return (dispatch) => {
     request
@@ -17,6 +24,20 @@ export function getCats () {
           return
         }
         dispatch(receiveCats(res.body))
+      })
+  }
+}
+
+export function getCatById (id) {
+  return (dispatch) => {
+    request
+      .get(`/api/cats/${id}`)
+      .end((err, res) => {
+        if (err) {
+          console.error(err.message)
+          return
+        }
+        dispatch(receiveCat(res.body))
       })
   }
 }

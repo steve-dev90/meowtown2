@@ -1,18 +1,8 @@
 import React from 'react'
+import {HashRouter as Router, Route, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 import {getCats} from '../actions/cats'
-
-// const renderGreeting = (greeting, key) => (
-//   <h1 key={key}>{greeting.text}</h1>
-// )
-
-// export const Greetings = ({greetings, dispatch}) => (
-//   <div>
-//     <button onClick={() => dispatch(getGreetings())}>Show Greetings</button>
-//     {greetings.map(renderGreeting)}
-//   </div>
-// )
 
 class Meowtown extends React.Component {
 
@@ -38,9 +28,10 @@ class Meowtown extends React.Component {
         <div id="catnames">
           <div className="cats">
             <ul>
-              {console.log(this.props.cats)}
               {this.props.cats.map(cat => {
-                return <li>{cat.name}</li>
+                return <React.Fragment key={cat.id}>                
+                  <li ><Link to={`./cats/${cat.id}`}>{cat.name}</Link></li>
+                </React.Fragment>
               })}
             </ul>
           </div>
