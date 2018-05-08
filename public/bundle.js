@@ -3451,12 +3451,17 @@ var _waiting = __webpack_require__(58);
 
 var _waiting2 = _interopRequireDefault(_waiting);
 
+var _editing = __webpack_require__(123);
+
+var _editing2 = _interopRequireDefault(_editing);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
   greetings: _greetings2.default,
   cats: _cats2.default,
-  waiting: _waiting2.default
+  waiting: _waiting2.default,
+  editing: _editing2.default
 });
 
 /***/ }),
@@ -3575,13 +3580,7 @@ var EditCat = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (EditCat.__proto__ || Object.getPrototypeOf(EditCat)).call(this, props));
 
-    _this.state = {
-      cat: {
-        name: '',
-        image: '',
-        life_story: ''
-      }
-    };
+    _this.state = {};
     _this.editCat = _this.editCat.bind(_this);
     _this.submit = _this.submit.bind(_this);
     return _this;
@@ -3608,7 +3607,8 @@ var EditCat = function (_React$Component) {
           life_story = _state.life_story;
 
       console.log(name);
-      this.props.dispatchput((0, _cats.putCatById)(this.props.match.params.id, name, image, life_story));
+      this.props.dispatch((0, _cats.putCatById)(this.props.match.params.id, name, image, life_story));
+      this.props.dispatch((0, _cats.getCatById)(this.props.match.params.id));
     }
   }, {
     key: 'render',
@@ -3656,6 +3656,15 @@ var EditCat = function (_React$Component) {
               _react2.default.createElement('input', { id: 'submit', type: 'submit', name: 'commit', value: 'Edit Cat', onSubmit: this.submit })
             )
           ),
+          this.props.editing.catEdited && _react2.default.createElement(
+            'div',
+            { className: 'catcreate' },
+            _react2.default.createElement(
+              'p',
+              { className: 'edited' },
+              'Your cat has been edited !'
+            )
+          ),
           _react2.default.createElement(
             'div',
             { id: 'back' },
@@ -3663,7 +3672,7 @@ var EditCat = function (_React$Component) {
             _react2.default.createElement(
               _reactRouterDom.Link,
               { to: '/cats' },
-              'nevermind'
+              'Home'
             )
           )
         ),
@@ -3676,8 +3685,9 @@ var EditCat = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-
+  console.log(state);
   return {
+    editing: state.editing,
     waiting: state.waiting,
     cats: state.cats };
 };
@@ -3873,7 +3883,7 @@ Object.defineProperty(exports, "__esModule", {
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function cats() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [{ catEdited: false }];
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   switch (action.type) {
@@ -3881,8 +3891,6 @@ function cats() {
       return [].concat(_toConsumableArray(action.cats));
     case 'RECEIVE_CAT':
       return action.cat;
-    case 'CAT_EDITED':
-      return { catEdited: true };
     default:
       return state;
   }
@@ -28804,6 +28812,30 @@ module.exports = function(originalModule) {
 	return module;
 };
 
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function editing() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [{ catEdited: false }];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'CAT_EDITED':
+      return { catEdited: true };
+    default:
+      return state;
+  }
+}
+
+exports.default = editing;
 
 /***/ })
 /******/ ]);

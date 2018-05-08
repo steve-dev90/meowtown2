@@ -8,13 +8,7 @@ class EditCat extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      cat : {
-        name: '',
-        image: '',
-        life_story: ''
-      }
-    }
+    this.state = {}
     this.editCat = this.editCat.bind(this)
     this.submit = this.submit.bind(this)
   }
@@ -32,7 +26,8 @@ class EditCat extends React.Component {
     
     let {name, image, life_story} = this.state
     console.log(name)
-    this.props.dispatchput(putCatById(this.props.match.params.id, name, image, life_story))
+    this.props.dispatch(putCatById(this.props.match.params.id, name, image, life_story))
+    this.props.dispatch(getCatById(this.props.match.params.id))
   }
 
   render() {
@@ -64,7 +59,12 @@ class EditCat extends React.Component {
 
         </form>
 
-        <div id="back"> <Link to="/cats">nevermind</Link></div>
+        {this.props.editing.catEdited && 
+        <div className="catcreate">
+          <p className="edited">Your cat has been edited !</p>
+        </div>}
+
+        <div id="back"> <Link to="/cats">Home</Link></div>
 
       </div>
 
@@ -76,8 +76,9 @@ class EditCat extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  
+  console.log(state)
   return {
+    editing: state.editing,
     waiting: state.waiting,
     cats: state.cats}
 }
